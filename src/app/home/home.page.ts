@@ -20,7 +20,7 @@ export class HomePage {
   public login() {
     this.auth.authenticate(this.credentials)
       .subscribe(response => {
-        console.log(response.headers.get('Authorization'));
+        this.auth.successFullLogin(response.headers.get('Authorization'));
       }, error => { });
     this.navCtrl.navigateForward('/categories');
   }

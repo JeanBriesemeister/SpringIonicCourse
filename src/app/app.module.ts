@@ -1,17 +1,20 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { CategoryService } from 'src/services/domain/category.service';
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { AuthInterceptorProvider } from 'src/interceptors/auth.interceptor';
 import { ErrorInterceptorProvider } from 'src/interceptors/error.interceptor';
 import { AuthService } from 'src/services/auth.service';
+import { CategoryService } from 'src/services/domain/category.service';
+import { CustomerService } from 'src/services/domain/customer.service';
+import { StorageService } from 'src/services/storage.service';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,8 +30,11 @@ import { AuthService } from 'src/services/auth.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     CategoryService,
+    AuthInterceptorProvider,
     ErrorInterceptorProvider,
-    AuthService
+    AuthService,
+    StorageService,
+    CustomerService
   ],
   bootstrap: [AppComponent]
 })
