@@ -13,7 +13,8 @@ const routes: Routes = [
   },
   { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
   { path: 'products', loadChildren: './products/products.module#ProductsPageModule' },
-  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' }
+  { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
+  { path: 'logout', loadChildren: './logout/logout.module#LogoutPageModule' }
 ];
 
 @NgModule({

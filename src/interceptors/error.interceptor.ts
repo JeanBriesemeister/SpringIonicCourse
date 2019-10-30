@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs/operators';
 import { StorageService } from 'src/services/storage.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(public storage: StorageService, public alertController: AlertController) { }
+    constructor(public storage: StorageService, public alertController: AlertController, public navCtrl: NavController) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         console.log("Passed here!");
@@ -30,21 +30,46 @@ export class ErrorInterceptor implements HttpInterceptor {
                 case 401:
                     this.handle401();
                     break;
+
                 case 403:
                     this.handle403();
                     break;
+
+                default:
+                    this.handleDefaultError(errorObject);
             }
 
             return Observable.throw(errorObject);
         })) as any;
     }
 
+    async handleDefaultError(errorObject: any) {
+        let alert = await this.alertController.create({
+            header: 'Error ' + errorObject.status + ': ' + errorObject.error,
+            message: errorObject.message,
+            backdropDismiss: false,
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    this.navCtrl.navigateRoot("/home");
+                }
+            }]
+        });
+
+        await alert.present();
+    }
+
     async handle401() {
         let alert = await this.alertController.create({
             header: 'Error 401: Authentication failure',
             message: 'Email or password incorrects',
-            backdropDismiss: true,
-            buttons: ['OK']
+            backdropDismiss: false,
+            buttons: [{
+                text: 'OK',
+                handler: () => {
+                    this.navCtrl.navigateRoot("/home");
+                }
+            }]
         });
 
         await alert.present();

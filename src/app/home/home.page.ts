@@ -21,8 +21,8 @@ export class HomePage {
     this.auth.authenticate(this.credentials)
       .subscribe(response => {
         this.auth.successFullLogin(response.headers.get('Authorization'));
+        this.navCtrl.navigateForward('/categories');
       }, error => { });
-    this.navCtrl.navigateForward('/categories');
   }
 
   public products() {
@@ -37,4 +37,11 @@ export class HomePage {
     this.menu.swipeGesture(true);
   }
 
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successFullLogin(response.headers.get('Authorization'));
+        this.navCtrl.navigateForward('/categories');
+      }, error => { });
+  }
 }
