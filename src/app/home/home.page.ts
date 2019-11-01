@@ -25,8 +25,8 @@ export class HomePage {
       }, error => { });
   }
 
-  public products() {
-    this.navCtrl.navigateForward('/products');
+  public signup() {
+    this.navCtrl.navigateForward('/signup');
   }
 
   ionViewWillEnter() {
