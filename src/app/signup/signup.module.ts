@@ -6,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { SignupPage } from './signup.page';
+import { CityService } from 'src/services/domain/city.service';
+import { ProvinceService } from 'src/services/domain/province.service';
 
 const routes: Routes = [
   {
@@ -22,6 +24,10 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [SignupPage]
+  declarations: [SignupPage],
+  providers: [
+    CityService,
+    ProvinceService
+  ]
 })
 export class SignupPageModule { }

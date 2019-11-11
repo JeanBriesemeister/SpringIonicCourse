@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CityService } from 'src/services/domain/city.service';
+import { ProvinceService } from 'src/services/domain/province.service';
+import { ProvinceDTO } from 'src/models/province.dto';
+import { CityDTO } from 'src/models/city.dto';
 
 @Component({
   selector: 'app-signup',
@@ -10,7 +14,11 @@ export class SignupPage implements OnInit {
 
   public formGroup: FormGroup;
 
-  constructor(public formBuilder: FormBuilder) {
+  public provinces: ProvinceDTO[];
+
+  public cities: CityDTO[];
+
+  constructor(public formBuilder: FormBuilder, public cityService: CityService, public provinceService: ProvinceService) {
     this.formGroup = this.formBuilder.group({
       name: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: ['joaquim@gmail.com', [Validators.required, Validators.email]],
@@ -31,6 +39,25 @@ export class SignupPage implements OnInit {
   }
 
   ngOnInit() {
+    this.loadProvinces();
+  }
+
+  loadProvinces() {
+    this.provinceService.findAll()
+      .subscribe(response => {
+        this.provinces = response;
+        this.formGroup.controls.provinceId.setValue(this.provinces[0].id);
+        this.updateCities();
+      }, error => { });
+  }
+
+  updateCities() {
+    let provinceId = this.formGroup.value.provinceId;
+    this.cityService.findAll(provinceId)
+      .subscribe(response => {
+        this.cities = response;
+        this.formGroup.controls.cityId.setValue(null);
+      }, error => { });
   }
 
   signupUser() {
