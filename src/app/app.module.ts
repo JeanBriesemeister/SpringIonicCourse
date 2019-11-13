@@ -13,6 +13,7 @@ import { CustomerService } from 'src/services/domain/customer.service';
 import { StorageService } from 'src/services/storage.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ProductService } from 'src/services/domain/product.service';
 
 
 
@@ -34,7 +35,8 @@ import { AppComponent } from './app.component';
     ErrorInterceptorProvider,
     AuthService,
     StorageService,
-    CustomerService
+    CustomerService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
