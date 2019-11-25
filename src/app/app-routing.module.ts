@@ -17,7 +17,8 @@ const routes: Routes = [
   { path: 'logout', loadChildren: './logout/logout.module#LogoutPageModule' },
   { path: 'signup', loadChildren: './signup/signup.module#SignupPageModule' },
   { path: 'productdetail', loadChildren: './productdetail/productdetail.module#ProductdetailPageModule' },
-  { path: 'cart', loadChildren: './cart/cart.module#CartPageModule' }
+  { path: 'cart', loadChildren: './cart/cart.module#CartPageModule' },
+  { path: 'pickaddress', loadChildren: './pickaddress/pickaddress.module#PickaddressPageModule' }
 ];
 
 @NgModule({

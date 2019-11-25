@@ -49,4 +49,8 @@ export class ProductdetailPage implements OnInit {
     this.cartService.addProduct(product);
     this.navCtrl.navigateRoot("/cart");
   }
+
+  goToCart() {
+    this.navCtrl.navigateForward('/cart');
+  }
 }

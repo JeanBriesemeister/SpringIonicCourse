@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Check out</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      Pick up a address
+    </ion-list-header>
+
+    <ion-card>
+      <ion-item *ngFor="let item of items">
+        <h2>{{item.street}}, {{item.number}}</h2>
+        <p>{{item.complement}} {{item.district}} CEP {{item.postalCode}}</p>
+        <p>{{item.city.name}}, {{item.city.province.name}}</p>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+</ion-content>

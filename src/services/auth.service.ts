@@ -5,11 +5,12 @@ import { API_CONFIG } from 'src/config/api.config';
 import { LocalUser } from 'src/models/localuser';
 import { StorageService } from './storage.service';
 import * as jwt_decode from 'jwt-decode';
+import { CartService } from './domain/cart.service';
 
 @Injectable()
 export class AuthService {
 
-    constructor(public http: HttpClient, public storage: StorageService) { }
+    constructor(public http: HttpClient, public storage: StorageService, public cartService: CartService) { }
 
     authenticate(credentials: CredentialsDTO) {
         return this.http.post(`${API_CONFIG.baseUrl}/login`, credentials, {
@@ -33,6 +34,7 @@ export class AuthService {
         };
 
         this.storage.setLocalUser(user);
+        this.cartService.createOrClearCart();
     }
 
     logOut() {

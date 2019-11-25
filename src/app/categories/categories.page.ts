@@ -36,4 +36,8 @@ export class CategoriesPage implements OnInit {
     this.navCtrl.navigateForward('/products', navigationExtras);
   }
 
+  goToCart() {
+    this.navCtrl.navigateForward('/cart');
+  }
+
 }
