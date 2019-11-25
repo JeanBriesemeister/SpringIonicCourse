@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categories"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list *ngFor="let cartitem of cartitems">
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img [src]="cartitem.product.imageUrl || 'assets/imgs/prod.jpg'">
+      </ion-thumbnail>
+      <h2>{{cartitem.product.name}}</h2>
+      <h6>{{cartitem.product.price | currency}}</h6>
+      <h6>{{cartitem.quantity}}</h6>
+    </ion-item>
+  </ion-list>
+</ion-content>

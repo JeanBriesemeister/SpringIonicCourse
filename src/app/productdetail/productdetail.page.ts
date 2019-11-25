@@ -3,6 +3,8 @@ import { ProductDTO } from 'src/models/product.dto';
 import { ProductService } from 'src/services/domain/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { API_CONFIG } from 'src/config/api.config';
+import { CartService } from 'src/services/domain/cart.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-productdetail',
@@ -13,7 +15,11 @@ export class ProductdetailPage implements OnInit {
 
   product: ProductDTO;
 
-  constructor(public productService: ProductService, private route: ActivatedRoute) { }
+  constructor(
+    public productService: ProductService,
+    private route: ActivatedRoute,
+    public cartService: CartService,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
   }
@@ -37,5 +43,10 @@ export class ProductdetailPage implements OnInit {
         this.product.imageUrl = `${API_CONFIG.buckectBaseUrl}/prod${this.product.id}.jpg`;
         console.log(this.product.imageUrl);
       }, error => { });
+  }
+
+  addToCart(product: ProductDTO) {
+    this.cartService.addProduct(product);
+    this.navCtrl.navigateRoot("/cart");
   }
 }
