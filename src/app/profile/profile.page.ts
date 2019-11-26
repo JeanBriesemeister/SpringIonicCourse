@@ -21,7 +21,7 @@ export class ProfilePage implements OnInit {
     if (localUser && localUser.email) {
       this.customerService.findByEmail(localUser.email)
         .subscribe(response => {
-          this.customer = response;
+          this.customer = response as CustomerDTO;
           this.getImageIfExists();
         }, error => {
           if (error.status == 403) {

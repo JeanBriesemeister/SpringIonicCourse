@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AddressDTO } from 'src/models/address.dto';
+import { StorageService } from 'src/services/storage.service';
+import { CustomerService } from 'src/services/domain/customer.service';
+import { NavController } from '@ionic/angular';
+import { OrderDTO } from 'src/models/order.dto';
+import { CartService } from 'src/services/domain/cart.service';
 
 @Component({
   selector: 'app-pickaddress',
@@ -10,7 +15,13 @@ export class PickaddressPage implements OnInit {
 
   items: AddressDTO[];
 
-  constructor() { }
+  order: OrderDTO;
+
+  constructor(
+    public storage: StorageService,
+    public customerService: CustomerService,
+    public navCtrl: NavController,
+    public cartService: CartService) { }
 
   ngOnInit() {
   }
@@ -20,40 +31,33 @@ export class PickaddressPage implements OnInit {
   }
 
   loadAddresses() {
-    this.items = [
-      {
-        id: "1",
-        street: "Rua Quinze de Novembro",
-        number: "300",
-        complement: "Apto 200",
-        district: "Santa Mônica",
-        postalCode: "48293822",
-        city: {
-          id: "1",
-          name: "Uberlândia",
-          province: {
-            id: "1",
-            name: "Minas Gerais"
+    let localUser = this.storage.getLocalUser();
+    if (localUser && localUser.email) {
+      this.customerService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.items = response['addresses'];
+
+          let cart = this.cartService.getCart();
+
+          this.order = {
+            customer: { id: response['id'] },
+            address: null,
+            items: cart.products.map(p => { return { quantity: p.quantity, product: { id: p.product.id } } }),
+            payment: null
+          };
+        }, error => {
+          if (error.status == 403) {
+            this.navCtrl.navigateRoot("/home");
           }
-        }
-      },
-      {
-        id: "2",
-        street: "Rua Alexandre Toledo da Silva",
-        number: "405",
-        complement: null,
-        district: "Centro",
-        postalCode: "88933822",
-        city: {
-          id: "3",
-          name: "São Paulo",
-          province: {
-            id: "2",
-            name: "São Paulo"
-          }
-        }
-      }
-    ];
+        });
+    } else {
+      this.navCtrl.navigateRoot("/home");
+    }
+  }
+
+  nextPage(address: AddressDTO) {
+    this.order.address = { id: address.id };
+    console.log(this.order);
   }
 
 }

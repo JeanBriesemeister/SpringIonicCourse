@@ -14,7 +14,7 @@
     </ion-list-header>
 
     <ion-card>
-      <ion-item *ngFor="let item of items">
+      <ion-item *ngFor="let item of items" (click)="nextPage(item)">
         <h2>{{item.street}}, {{item.number}}</h2>
         <p>{{item.complement}} {{item.district}} CEP {{item.postalCode}}</p>
         <p>{{item.city.name}}, {{item.city.province.name}}</p>
