@@ -5,6 +5,7 @@ import { CustomerService } from 'src/services/domain/customer.service';
 import { NavController } from '@ionic/angular';
 import { OrderDTO } from 'src/models/order.dto';
 import { CartService } from 'src/services/domain/cart.service';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-pickaddress',
@@ -57,7 +58,14 @@ export class PickaddressPage implements OnInit {
 
   nextPage(address: AddressDTO) {
     this.order.address = { id: address.id };
-    console.log(this.order);
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        order: this.order
+      }
+    };
+    
+    this.navCtrl.navigateForward('/payment', navigationExtras);
   }
 
 }
