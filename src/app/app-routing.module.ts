@@ -19,7 +19,8 @@ const routes: Routes = [
   { path: 'productdetail', loadChildren: './productdetail/productdetail.module#ProductdetailPageModule' },
   { path: 'cart', loadChildren: './cart/cart.module#CartPageModule' },
   { path: 'pickaddress', loadChildren: './pickaddress/pickaddress.module#PickaddressPageModule' },
-  { path: 'payment', loadChildren: './payment/payment.module#PaymentPageModule' }
+  { path: 'payment', loadChildren: './payment/payment.module#PaymentPageModule' },
+  { path: 'orderconfirmation', loadChildren: './orderconfirmation/orderconfirmation.module#OrderconfirmationPageModule' }
 ];
 
 @NgModule({

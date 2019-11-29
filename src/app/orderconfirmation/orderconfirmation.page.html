@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/categories"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="orderId">Order confirmed!</ion-title>
+    <ion-title *ngIf="!orderId">Confirm your order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div *ngIf="!orderId">
+    <ion-card>
+      <ion-card-header>
+        Order items
+      </ion-card-header>
+
+      <ion-list>
+        <ion-item *ngFor="let item of cartItems">
+          <ion-thumbnail item-start>
+            <img [src]="item.product.imageUrl || 'assets/imgs/prod.jpg'">
+          </ion-thumbnail>
+          <h2>{{item.product.name}}</h2>
+          <p>{{item.product.price | currency}}</p>
+          <p class="nolinebreak">{{item.quantity}}</p>
+          <p item-end>{{item.product.price * item.quantity | currency}}</p>
+        </ion-item>
+
+        <ion-item>
+          <h2>Total</h2>
+          <h2 item-end>{{getTotal() | currency}}</h2>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Customer
+      </ion-card-header>
+      <ion-item>
+        <h2>{{customer?.name}}</h2>
+        <p>{{customer?.email}}</p>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Address
+      </ion-card-header>
+
+      <ion-item>
+        <h2>{{address?.street}}, {{address?.number}}</h2>
+        <p>{{address?.complement}} {{address?.district}} CEP {{address?.postalCode}}</p>
+        <p>{{address?.city.name}}, {{address?.city.province.name}}</p>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Payment
+      </ion-card-header>
+
+      <ion-item *ngIf="order.payment['@type']=='paymentWithCard'">
+        <h3>Payment with card</h3>
+        <p>Parcelas: {{order.payment.numberOfParcelas}}</p>
+      </ion-item>
+      <ion-item *ngIf="order.payment['@type']=='paymentWithBoleto'">
+        <h3>Payment with boleto</h3>
+      </ion-item>
+    </ion-card>
+
+    <button ion-button block (click)="checkOut()">Confirmar pedido</button>
+    <button ion-button block outline (click)="back()">Back</button>
+  </div>
+
+  <div *ngIf="orderId">
+    <ion-card>
+      <ion-card-header>
+        Your order was confirmed!
+      </ion-card-header>
+      <ion-item>
+        <h2>Order id: {{orderId}}</h2>
+        <p>Check your e-mail</p>
+      </ion-item>
+    </ion-card>
+
+    <button ion-button block outline (click)="home()">Back</button>
+  </div>
+
+</ion-content>

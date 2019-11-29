@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderDTO } from 'src/models/order.dto';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
@@ -35,7 +35,14 @@ export class PaymentPage implements OnInit {
 
   nextPage() {
     this.order.payment = this.formGroup.value;
-    console.log(this.order);
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        order: this.order
+      }
+    };
+
+    this.navCtrl.navigateRoot('orderconfirmation', navigationExtras);
   }
 
 }

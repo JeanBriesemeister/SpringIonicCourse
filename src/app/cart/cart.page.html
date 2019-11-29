@@ -30,5 +30,5 @@
     <h1>Your cart is empty!</h1>
   </ion-item>
   <ion-button expand="block" (click)="goOn()">Continue shopping</ion-button>
-  <ion-button expand="block" (click)="checkOut()" color="secondary">Check out</ion-button>
+  <ion-button *ngIf="getTotal() > 0" expand="block" (click)="checkOut()" color="secondary">Check out</ion-button>
 </ion-content>
