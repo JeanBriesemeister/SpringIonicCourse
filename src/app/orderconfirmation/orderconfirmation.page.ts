@@ -61,14 +61,13 @@ export class OrderconfirmationPage implements OnInit {
   }
 
   home() {
-    this.navCtrl.navigateRoot('/home');
+    this.navCtrl.navigateRoot('/categories');
   }
 
   checkOut() {
     this.orderService.insert(this.order)
       .subscribe(response => {
         this.cartService.createOrClearCart();
-        console.log(response.headers.get('location'));
         this.orderId = this.extractId(response.headers.get('location'));
       },
         error => {
