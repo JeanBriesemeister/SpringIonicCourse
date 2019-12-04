@@ -1,5 +1,7 @@
 {
   "name": "SpringIonicCourse",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

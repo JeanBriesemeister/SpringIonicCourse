@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductService } from 'src/services/domain/product.service';
 import { CartService } from 'src/services/domain/cart.service';
+import { ImageUtilService } from 'src/services/imageutil.service';
 
 
 
@@ -38,7 +39,8 @@ import { CartService } from 'src/services/domain/cart.service';
     StorageService,
     CustomerService,
     ProductService,
-    CartService
+    CartService,
+    ImageUtilService
   ],
   bootstrap: [AppComponent]
 })

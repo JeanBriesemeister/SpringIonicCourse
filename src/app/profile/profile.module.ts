@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProfilePage } from './profile.page';
 
+import { Camera } from '@ionic-native/camera/ngx';
+
 const routes: Routes = [
   {
     path: '',
@@ -21,6 +23,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage],
+  providers: [
+    Camera
+  ]
 })
-export class ProfilePageModule {}
+export class ProfilePageModule { }
