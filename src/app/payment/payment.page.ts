@@ -13,7 +13,7 @@ export class PaymentPage implements OnInit {
 
   order: OrderDTO;
 
-  numberOfParcelas: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  numberOfInstallments: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   formGroup: FormGroup;
 
@@ -25,7 +25,7 @@ export class PaymentPage implements OnInit {
     this.order = this.route.snapshot.queryParams["order"];
 
     this.formGroup = this.formBuilder.group({
-      numberOfParcelas: [1, Validators.required],
+      numberOfInstallments: [1, Validators.required],
       "@type": ["paymentWithCard", Validators.required]
     });
   }

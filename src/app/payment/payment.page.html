@@ -19,16 +19,16 @@
           <ion-radio formControlName="@type" checked="true" value="paymentWithCard"></ion-radio>
         </ion-item>
         <ion-item>
-          <ion-label>Payment with boleto</ion-label>
-          <ion-radio formControlName="@type" value="paymentWithBoleto"></ion-radio>
+          <ion-label>Payment with bank slip</ion-label>
+          <ion-radio formControlName="@type" value="paymentWithBankSlip"></ion-radio>
         </ion-item>
       </ion-radio-group>
     </ion-list>
 
     <ion-item *ngIf="formGroup.value['@type'] == 'paymentWithCard'">
-      <ion-label stacked>Parcelas of Boleto</ion-label>
-      <ion-select formControlName="numberOfParcelas">
-        <ion-select-option *ngFor="let n of numberOfParcelas; first as f" [value]="n" [selected]="f">
+      <ion-label stacked>Numbers of Installments</ion-label>
+      <ion-select formControlName="numberOfInstallments">
+        <ion-select-option *ngFor="let n of numberOfInstallments; first as f" [value]="n" [selected]="f">
           {{n}}
         </ion-select-option>
       </ion-select>

@@ -68,6 +68,24 @@ export class ProfilePage implements OnInit {
     });
   }
 
+  getGaleryPicture() {
+    this.isCameraOn = true;
+
+    const options: CameraOptions = {
+      quality: 100,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE
+    }
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.picture = 'data:image/png;base64,' + imageData;
+      this.isCameraOn = false;
+    }, (err) => {
+    });
+  }
+
   sendPicture() {
     this.customerService.uploadPicture(this.picture)
       .subscribe(response => {

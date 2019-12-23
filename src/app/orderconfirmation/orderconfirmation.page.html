@@ -63,10 +63,10 @@
 
       <ion-item *ngIf="order.payment['@type']=='paymentWithCard'">
         <h3>Payment with card</h3>
-        <p>Parcelas: {{order.payment.numberOfParcelas}}</p>
+        <p>Installments: {{order.payment.numberOfInstallments}}</p>
       </ion-item>
-      <ion-item *ngIf="order.payment['@type']=='paymentWithBoleto'">
-        <h3>Payment with boleto</h3>
+      <ion-item *ngIf="order.payment['@type']=='paymentWithBankSlip'">
+        <h3>Payment with bank slip</h3>
       </ion-item>
     </ion-card>
 

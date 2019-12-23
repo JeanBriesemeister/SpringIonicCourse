@@ -32,7 +32,7 @@ export class SignupPage implements OnInit {
       name: ['Joaquim', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: ['joaquim@gmail.com', [Validators.required, Validators.email]],
       customerType: ['1', [Validators.required]],
-      financialCode: ['06134596280', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
+      socialInsuranceOrBusinessNumber: ['06134596280', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
       password: ['123', [Validators.required]],
       street: ['Rua Via', [Validators.required]],
       number: ['25', [Validators.required]],
@@ -62,6 +62,10 @@ export class SignupPage implements OnInit {
 
   updateCities() {
     let provinceId = this.formGroup.value.provinceId;
+    if (provinceId == null) {
+      return;
+    }
+
     this.cityService.findAll(provinceId)
       .subscribe(response => {
         this.cities = response;

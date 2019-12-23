@@ -27,20 +27,20 @@
           Customer type
         </ion-list-header>
         <ion-item>
-          <ion-label>Pessoa física</ion-label>
+          <ion-label>Normal Person</ion-label>
           <ion-radio formControlName="customerType" checked="true" value="1"></ion-radio>
         </ion-item>
         <ion-item>
-          <ion-label>Pessoa jurídica</ion-label>
+          <ion-label>Legal Person</ion-label>
           <ion-radio formControlName="customerType" value="2"></ion-radio>
         </ion-item>
       </ion-radio-group>
     </ion-list>
 
     <ion-item>
-      <ion-label stacked>Financial code</ion-label>
-      <ion-input formControlName="financialCode" type="text"></ion-input>
-      <p class="danger" *ngIf="formGroup.controls['financialCode'].dirty && formGroup.controls['financialCode'].errors"
+      <ion-label stacked>Social Insurance or Business Number</ion-label>
+      <ion-input formControlName="socialInsuranceOrBusinessNumber" type="text"></ion-input>
+      <p class="danger" *ngIf="formGroup.controls['socialInsuranceOrBusinessNumber'].dirty && formGroup.controls['socialInsuranceOrBusinessNumber'].errors"
         margin-left>
         Invalid value</p>
     </ion-item>

@@ -11,7 +11,7 @@ export class OrderService {
 
     insert(obj: OrderDTO) {
         return this.http.post(
-            `${API_CONFIG.baseUrl}/requests`,
+            `${API_CONFIG.baseUrl}/orders`,
             obj,
             {
                 observe: 'response',
