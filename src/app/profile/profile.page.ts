@@ -6,6 +6,8 @@ import { API_CONFIG } from 'src/config/api.config';
 import { NavController } from '@ionic/angular';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 
+declare var window;
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -58,11 +60,12 @@ export class ProfilePage implements OnInit {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.picture = 'data:image/png;base64,' + imageData;
+      this.picture = window.Ionic.WebView.convertFileSrc(imageData);
       this.isCameraOn = false;
     }, (err) => {
     });
@@ -76,11 +79,12 @@ export class ProfilePage implements OnInit {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.FILE_URI,
       encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
     }
 
     this.camera.getPicture(options).then((imageData) => {
-      this.picture = 'data:image/png;base64,' + imageData;
+      this.picture = window.Ionic.WebView.convertFileSrc(imageData);
       this.isCameraOn = false;
     }, (err) => {
     });
