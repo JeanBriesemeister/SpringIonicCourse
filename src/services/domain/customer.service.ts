@@ -35,11 +35,7 @@ export class CustomerService {
         );
     }
 
-    uploadPicture(picture) {
-        let pictureBlob = this.imageUtilService.dataUriToBlob(picture);
-        let formData: FormData = new FormData();
-        formData.set('file', pictureBlob, 'file.png');
-
+    uploadPicture(formData) {
         return this.http.post(`${API_CONFIG.baseUrl}/customers/picture`,
             formData,
             {

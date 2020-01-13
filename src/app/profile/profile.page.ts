@@ -3,10 +3,12 @@ import { StorageService } from 'src/services/storage.service';
 import { CustomerDTO } from 'src/models/customer.dto';
 import { CustomerService } from 'src/services/domain/customer.service';
 import { API_CONFIG } from 'src/config/api.config';
-import { NavController } from '@ionic/angular';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-
-declare var window;
+import { NavController, Platform } from '@ionic/angular';
+import { Camera, CameraOptions, PictureSourceType } from '@ionic-native/camera/ngx';
+import { HttpClient } from '@angular/common/http';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { File, FileEntry } from '@ionic-native/file/ngx';
 
 @Component({
   selector: 'app-profile',
@@ -16,14 +18,19 @@ declare var window;
 export class ProfilePage implements OnInit {
 
   customer: CustomerDTO;
-  picture: string;
+  picture: { correctPath: string, currentName: string, pathForImage: string };
   isCameraOn: boolean = false;
 
   constructor(
     public storage: StorageService,
     public customerService: CustomerService,
     public navCtrl: NavController,
-    private camera: Camera) { }
+    private camera: Camera,
+    private file: File,
+    private http: HttpClient,
+    private webview: WebView,
+    private filePath: FilePath,
+    private platform: Platform) { }
 
   ngOnInit() {
     this.loadData();
@@ -54,52 +61,82 @@ export class ProfilePage implements OnInit {
   }
 
   getCameraPicture() {
-    this.isCameraOn = true;
-
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      this.picture = window.Ionic.WebView.convertFileSrc(imageData);
-      this.isCameraOn = false;
-    }, (err) => {
-    });
+    this.takePicture(this.camera.PictureSourceType.CAMERA);
   }
 
   getGaleryPicture() {
-    this.isCameraOn = true;
-
-    const options: CameraOptions = {
-      quality: 100,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.PNG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true
-    }
-
-    this.camera.getPicture(options).then((imageData) => {
-      this.picture = window.Ionic.WebView.convertFileSrc(imageData);
-      this.isCameraOn = false;
-    }, (err) => {
-    });
+    this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
   }
 
   sendPicture() {
-    this.customerService.uploadPicture(this.picture)
-      .subscribe(response => {
-        this.picture = null;
-        this.loadData();
-      }, error => { });
+    this.file.resolveLocalFilesystemUrl(this.picture.correctPath)
+      .then(entry => {
+        (<FileEntry>entry).file(file => this.readFile(file))
+      })
+      .catch(err => {
+      });
+  }
+
+  readFile(file: any) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const formData = new FormData();
+      const imgBlob = new Blob([reader.result], {
+        type: file.type
+      });
+      formData.append('file', imgBlob, 'file.png');
+
+      this.customerService.uploadPicture(formData)
+        .subscribe(response => {
+          this.picture = null;
+          this.loadData();
+        }, error => { });
+    };
+    reader.readAsArrayBuffer(file);
   }
 
   cancel() {
     this.picture = null;
   }
 
+  takePicture(sourceType: PictureSourceType) {
+    this.isCameraOn = true;
+
+    var options: CameraOptions = {
+      quality: 100,
+      sourceType: sourceType,
+      saveToPhotoAlbum: false,
+      correctOrientation: true,
+      mediaType: this.camera.MediaType.PICTURE,
+      encodingType: this.camera.EncodingType.PNG,
+    };
+
+    this.camera.getPicture(options).then(imagePath => {
+      if (this.platform.is('android') && sourceType === this.camera.PictureSourceType.PHOTOLIBRARY) {
+        this.filePath.resolveNativePath(imagePath)
+          .then(filePath => {
+            let correctPath = filePath.substr(0, filePath.lastIndexOf('/') + 1);
+            let currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+
+            this.picture = { correctPath: correctPath, currentName: currentName, pathForImage: this.pathForImage(imagePath) };
+          });
+      } else {
+        var currentName = imagePath.substr(imagePath.lastIndexOf('/') + 1);
+        var correctPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+
+        this.picture = { correctPath: correctPath, currentName: currentName, pathForImage: this.pathForImage(imagePath) };
+      }
+    });
+
+    this.isCameraOn = false;
+  }
+
+  pathForImage(img) {
+    if (img === null) {
+      return '';
+    } else {
+      let converted = this.webview.convertFileSrc(img);
+      return converted;
+    }
+  }
 }

@@ -16,8 +16,11 @@ import { AppComponent } from './app.component';
 import { ProductService } from 'src/services/domain/product.service';
 import { CartService } from 'src/services/domain/cart.service';
 import { ImageUtilService } from 'src/services/imageutil.service';
-
-
+import { IonicStorageModule } from '@ionic/storage';
+import { Camera } from '@ionic-native/camera/ngx';
+import { File } from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -26,12 +29,18 @@ import { ImageUtilService } from 'src/services/imageutil.service';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    ImageUtilService,
+    Camera,
+    File,
+    WebView,
+    FilePath,
     CategoryService,
     AuthInterceptorProvider,
     ErrorInterceptorProvider,
@@ -39,8 +48,7 @@ import { ImageUtilService } from 'src/services/imageutil.service';
     StorageService,
     CustomerService,
     ProductService,
-    CartService,
-    ImageUtilService
+    CartService
   ],
   bootstrap: [AppComponent]
 })

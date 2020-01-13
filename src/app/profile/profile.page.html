@@ -11,7 +11,7 @@
   <ion-avatar>
     <img class="circle" [src]="customer?.imageUrl || 'assets/imgs/avatar-blank.png'">
   </ion-avatar>
-  <h2 class="ion-text-center">{{customer?.nome}}</h2>
+  <h2 class="ion-text-center">{{customer?.name}}</h2>
   <p class="ion-text-center">{{customer?.email}}</p>
 
   <ion-card>
@@ -19,13 +19,13 @@
       Send profile image
     </ion-card-header>
     <ion-item *ngIf="picture">
-      <img [src]="picture">
+      <ion-img [src]="picture.pathForImage"></ion-img>
     </ion-item>
     <ion-item>
-      <button ion-button block (click)="getCameraPicture()" [disabled]="cameraOn">Camera</button>
-      <button ion-button block (click)="getGaleryPicture()" [disabled]="cameraOn">Galery</button>
-      <button *ngIf="picture" ion-button outline block (click)="sendPicture()">Send picture</button>
-      <button *ngIf="picture" ion-button outline block (click)="cancel()">Cancel</button>
+      <ion-button (click)="getCameraPicture()" [disabled]="cameraOn">Camera</ion-button>
+      <ion-button (click)="getGaleryPicture()" [disabled]="cameraOn">Galery</ion-button>
+      <ion-button *ngIf="picture" (click)="sendPicture()">Send picture</ion-button>
+      <ion-button *ngIf="picture" (click)="cancel()">Cancel</ion-button>
     </ion-item>
   </ion-card>
 </ion-content>
