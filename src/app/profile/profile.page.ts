@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File, FileEntry } from '@ionic-native/file/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,7 @@ export class ProfilePage implements OnInit {
   customer: CustomerDTO;
   picture: { correctPath: string, currentName: string, pathForImage: string };
   isCameraOn: boolean = false;
+  profileImage;
 
   constructor(
     public storage: StorageService,
@@ -30,7 +32,11 @@ export class ProfilePage implements OnInit {
     private http: HttpClient,
     private webview: WebView,
     private filePath: FilePath,
-    private platform: Platform) { }
+    private platform: Platform,
+    private sanitizer: DomSanitizer) {
+      
+    this.profileImage = 'assets/imgs/avatar-blank.png';
+  }
 
   ngOnInit() {
     this.loadData();
@@ -57,7 +63,22 @@ export class ProfilePage implements OnInit {
     this.customerService.getImageFromBucket(this.customer.id)
       .subscribe(response => {
         this.customer.imageUrl = `${API_CONFIG.buckectBaseUrl}/cp${this.customer.id}.jpg`;
-      }, error => { });
+        this.blobToDataURL(response).then(dataURL => {
+          let str: string = dataURL as string;
+          this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
+        });
+      }, error => {
+        this.profileImage = 'assets/imgs/avatar-blank.png';
+      });
+  }
+
+  blobToDataURL(blob) {
+    return new Promise((fulfill, reject) => {
+      let reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (e) => fulfill(reader.result);
+      reader.readAsDataURL(blob);
+    });
   }
 
   getCameraPicture() {
@@ -89,7 +110,7 @@ export class ProfilePage implements OnInit {
       this.customerService.uploadPicture(formData)
         .subscribe(response => {
           this.picture = null;
-          this.loadData();
+          this.getImageIfExists();
         }, error => { });
     };
     reader.readAsArrayBuffer(file);
