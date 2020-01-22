@@ -22,8 +22,8 @@
       <ion-img [src]="picture.pathForImage"></ion-img>
     </ion-item>
     <ion-item>
-      <ion-button (click)="getCameraPicture()" [disabled]="cameraOn">Camera</ion-button>
-      <ion-button (click)="getGaleryPicture()" [disabled]="cameraOn">Galery</ion-button>
+      <ion-button (click)="getCameraPicture()" [disabled]="isCameraOn">Camera</ion-button>
+      <ion-button (click)="getGaleryPicture()" [disabled]="isCameraOn">Galery</ion-button>
       <ion-button *ngIf="picture" (click)="sendPicture()">Send picture</ion-button>
       <ion-button *ngIf="picture" (click)="cancel()">Cancel</ion-button>
     </ion-item>

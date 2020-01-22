@@ -2,7 +2,7 @@
 <widget id="com.jeanbriesemeister.springbootcourse" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Order system</name>
     <description>Use case of springboot and ionic</description>
-    <author email="jeanbr86@gmail.com" href="http://ionicframework.com/">Jean Briesemeister</author>
+    <author email="jeanbr86@gmail.com" href="https://www.linkedin.com/in/jeanbriesemeister">Jean Briesemeister</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
